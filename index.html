@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- jQuery -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <!-- bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <!-- reset css -->
+    <link rel="stylesheet" href="assets/css/reset.css" />
+    <!-- css file -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <title>Weather Dashboard</title>
+  </head>
+  <body>
+    <!-- jumbotron from Bootstrap -->
+    <header>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Weather Dashboard</h1>
+        </div>
+      </div>
+    </header>
+    <!-- Card on left side from bootstrap -->
+    <section>
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Search for a City</h5>
+          <!-- search button from bootstrap -->
+          <!-- STEP1 : search for city -->
+          <div class="input-group">
+            <div class="form-outline">
+              <input type="search" id="search-value" class="form-control" />
+            </div>
+            <button type="button" class="btn btn-primary" id="search-button">
+              <i class="fas fa-search">Search</i>
+            </button>
+          </div>
+          <!-- list Groups from bootstrap -->
+          <!-- Step2: City that is searched for added to history Below -->
+          <div class="card" style="width: 18rem">
+            <ul class="list-group list-group-flush" id="search-history"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- card on top right that displays current weather in city selected -->
+    <section id="future-weather">
+      <!-- <div class="card" style="width: 18rem">
+        <div class="card-body" id="current-weather">
+          <h5 class="card-title">Searched City Here</h5>
+        </div>
+      </div> -->
+    </section>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- boostrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- local js file -->
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>

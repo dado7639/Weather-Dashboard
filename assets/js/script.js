@@ -7,15 +7,39 @@ var futureWeather = document.getElementById("future-weather");
 
 var searchHistArray = [];
 
-var weatherUrl =
-  "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}";
 var weatherApi = "30294155ca94b96aa200f93e1787a028";
+
+// funciton to get API
+// how do i differntiate this for getWEater
+function getApi() {
+  var searchedCity = searchVal.value.trim();
+  var weatherUrl =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    searchedCity +
+    "&appid=" +
+    weatherApi;
+
+  fetch(weatherUrl)
+    //whatever comes back from the api is stored in the variable response
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+}
 
 // user inputs city in search bar
 // run function that gets that cities weather
 function getWeather() {
-  // get value from users search
-  var searched = searchVal.value.trim();
+  getApi();
+  // get the actual weather from the api
+
+  // how to pull from getApi function
+  var temp;
+  var wind;
+  var humidity;
+  var uvIndex;
 }
 
 // function that populates the current weather card
@@ -28,7 +52,11 @@ function populateCurrent() {
 function populateFuture() {}
 
 //save users search history
-function saveHistory() {}
+function saveHistory() {
+  // get value for search history
+  // add search value to history array
+  // populate array to the ul "search-history"
+}
 
 // event
 searchButton.addEventListener("click", getWeather);

@@ -1,23 +1,20 @@
-// var dec for elements in the dom
-var searchButton = document.getElementById("search-button");
-var searchHistory = document.getElementById("search-history");
-var searchVal = document.getElementById("search-value");
-var currentWeather = document.getElementById("current-weather");
-var futureWeather = document.getElementById("future-weather");
-
-var searchHistArray = [];
-
+//variable decleration
+var searchButton = document.getElementById("searchButton");
+var searchVal = document.getElementById("searchCity");
+var currentCityName = document.getElementById("currentCityName");
+var currentTemp = document.getElementById("currentTemp");
+var currentWind = document.getElementById("currentWind");
+var currentHum = document.getElementById("currentHum");
+var currentUV = document.getElementById("currentUV");
+var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
+var futureWeatherUrl = "";
+var uvUrl = "";
 var weatherApi = "30294155ca94b96aa200f93e1787a028";
+var searchedCity;
 
-// funciton to get API
-// how do i differntiate this for getWEater
-function getApi() {
-  var searchedCity = searchVal.value.trim();
+function getCurrentWeather() {
   var weatherUrl =
-    "https://api.openweathermap.org/data/2.5/weather?q=" +
-    searchedCity +
-    "&appid=" +
-    weatherApi;
+    currentWeatherUrl + searchedCity + "&units=imperial&appid=" + weatherApi;
 
   fetch(weatherUrl)
     //whatever comes back from the api is stored in the variable response
@@ -26,37 +23,31 @@ function getApi() {
     })
     .then(function (data) {
       console.log(data);
+      weather = data;
+      displayWeather();
     });
+  //catch error if user types in wrong city
+  // .catch(function (error) {})
 }
 
-// user inputs city in search bar
-// run function that gets that cities weather
-function getWeather() {
-  getApi();
+function displayWeather() {
   // get the actual weather from the api
+  console.log(weather);
 
-  // how to pull from getApi function
-  var temp;
-  var wind;
-  var humidity;
-  var uvIndex;
+  currentCityName.innerHTML = weather.name;
+  currentTemp.innerHTML = "Temperature: " + weather.main.temp + " Fahrenheit";
+  currentWind.innerHTML = "Wind: " + weather.wind.speed + " MPH";
+  currentHum.innerHTML = "Humidity: " + weather.main.humidity + "%";
+
+  var latitude = weather.coord.lat;
+  console.log(latitude);
+  var logitude = weather.coord.lon;
+  console.log(logitude);
+  // populate current weather box
 }
 
-// function that populates the current weather card
-function populateCurrent() {
-  // WHEN I view the UV index
-  // THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-}
-
-//function that populates future weather cards
-function populateFuture() {}
-
-//save users search history
-function saveHistory() {
-  // get value for search history
-  // add search value to history array
-  // populate array to the ul "search-history"
-}
-
-// event
-searchButton.addEventListener("click", getWeather);
+searchButton.addEventListener("click", function () {
+  searchedCity = searchVal.value.trim();
+  console.log(searchedCity);
+  getCurrentWeather();
+});

@@ -7,10 +7,12 @@ var currentWind = document.getElementById("currentWind");
 var currentHum = document.getElementById("currentHum");
 var currentUV = document.getElementById("currentUV");
 var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
-var futureWeatherUrl = "";
+var futureWeatherUrl = "https://api.openweathermap.org/data/2.5/forecast?q=";
 var uvUrl = "";
 var weatherApi = "30294155ca94b96aa200f93e1787a028";
 var searchedCity;
+var currentWeather;
+var futureWeather;
 
 function getCurrentWeather() {
   var weatherUrl =
@@ -22,32 +24,53 @@ function getCurrentWeather() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
-      weather = data;
-      displayWeather();
+      currentWeather = data;
+      displayCurrentWeather();
     });
   //catch error if user types in wrong city
-  // .catch(function (error) {})
+}
+function getFutureWeather() {
+  var weatherUrl =
+    futureWeatherUrl + searchedCity + "&units=imperial&appid=" + weatherApi;
+
+  fetch(weatherUrl)
+    //whatever comes back from the api is stored in the variable response
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      futureWeather = data;
+      displayFutureWeather();
+    });
 }
 
-function displayWeather() {
+//still needs weather icon
+function displayCurrentWeather() {
   // get the actual weather from the api
-  console.log(weather);
+  console.log(currentWeather);
 
-  currentCityName.innerHTML = weather.name;
-  currentTemp.innerHTML = "Temperature: " + weather.main.temp + " Fahrenheit";
-  currentWind.innerHTML = "Wind: " + weather.wind.speed + " MPH";
-  currentHum.innerHTML = "Humidity: " + weather.main.humidity + "%";
+  currentCityName.innerHTML = currentWeather.name;
+  currentTemp.innerHTML =
+    "Temperature: " + currentWeather.main.temp + " Fahrenheit";
+  currentWind.innerHTML = "Wind: " + currentWeather.wind.speed + " MPH";
+  currentHum.innerHTML = "Humidity: " + currentWeather.main.humidity + "%";
 
-  var latitude = weather.coord.lat;
+  var latitude = currentWeather.coord.lat;
   console.log(latitude);
-  var logitude = weather.coord.lon;
+  var logitude = currentWeather.coord.lon;
   console.log(logitude);
   // populate current weather box
 }
 
+function displayFutureWeather() {
+  console.log(futureWeather.list.length);
+
+  //length of future weather array... 40 spots... weather for every 3 hours
+  for (i = 0; i < futureWeather.list.length; i++) {}
+}
+
 searchButton.addEventListener("click", function () {
   searchedCity = searchVal.value.trim();
-  console.log(searchedCity);
   getCurrentWeather();
+  getFutureWeather();
 });

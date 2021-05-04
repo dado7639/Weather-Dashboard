@@ -8,11 +8,15 @@ var currentHum = document.getElementById("currentHum");
 var currentUV = document.getElementById("currentUV");
 var currentWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=";
 var futureWeatherUrl = "https://api.openweathermap.org/data/2.5/forecast?q=";
-var uvUrl = "";
+var uvUrl = "https://api.openweathermap.org/data/2.5/onecall?";
 var weatherApi = "30294155ca94b96aa200f93e1787a028";
 var searchedCity;
+var lat;
+var long;
 var currentWeather;
 var futureWeather;
+var uvIndex;
+var histArray = [];
 
 function getCurrentWeather() {
   var weatherUrl =
@@ -26,6 +30,7 @@ function getCurrentWeather() {
     .then(function (data) {
       currentWeather = data;
       displayCurrentWeather();
+      console.log(currentWeather);
     });
   //catch error if user types in wrong city
 }
@@ -55,22 +60,49 @@ function displayCurrentWeather() {
   currentWind.innerHTML = "Wind: " + currentWeather.wind.speed + " MPH";
   currentHum.innerHTML = "Humidity: " + currentWeather.main.humidity + "%";
 
-  var latitude = currentWeather.coord.lat;
-  console.log(latitude);
-  var logitude = currentWeather.coord.lon;
-  console.log(logitude);
+  lat = currentWeather.coord.lat;
+  long = currentWeather.coord.lon;
   // populate current weather box
 }
 
+//GET UV NOT WORKING
+function getUv() {
+  var weatherUrl =
+    uvUrl + "lat=" + lat + "&lon=" + long + "&appid=" + weatherApi;
+
+  console.log(weatherUrl);
+
+  fetch(weatherUrl)
+    .then(function (response) {
+      return response.json();
+      s;
+    })
+    .then(function (data) {
+      uvIndex = data;
+      console.log(data);
+    });
+}
+
 function displayFutureWeather() {
-  console.log(futureWeather.list.length);
+  console.log(futureWeather);
 
   //length of future weather array... 40 spots... weather for every 3 hours
-  for (i = 0; i < futureWeather.list.length; i++) {}
+  // HOw to get every day instead of every 3 hours???
+  for (i = 0; i < futureWeather.list.length; i++) {
+    // HOW to populate a card in html based on each time it loops
+    // console.log(futureWeather.list[i]);
+  }
+}
+
+//SAVE CITY INPUT AND ADD TO LIST
+function saveHist() {
+  histArray = histArray + savedCity;
+  console.log(histArray);
 }
 
 searchButton.addEventListener("click", function () {
   searchedCity = searchVal.value.trim();
+  localStorage.setItem("savedCity", searchedCity);
   getCurrentWeather();
   getFutureWeather();
 });
